@@ -41,7 +41,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-800">
       <div className="w-full max-w-6xl">
         <h1 className="text-3xl font-bold text-center mb-6">
           TaskFlow Kanban 🚀

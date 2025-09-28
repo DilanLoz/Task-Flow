@@ -22,7 +22,7 @@ function TaskCard({ task, onDragStart, onDelete }: TaskCardProps) {
       onDragStart={handleDragStart}
     >
       <motion.div
-        className="bg-white shadow-md rounded-lg p-3 cursor-grab flex justify-between items-center"
+        className="bg-slate-600 shadow-md rounded-lg p-3 cursor-grab flex justify-between items-center"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
