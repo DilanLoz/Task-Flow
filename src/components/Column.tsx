@@ -20,7 +20,7 @@ function Column({ title, tasks, onDrop, onDragStart, onDelete }: ColumnProps) {
 
   return (
     <div
-      className="bg-neutral-900 rounded-2xl shadow-lg p-4 min-h-[300px]"
+      className="bg-neutral-900 rounded-2xl shadow-lg p-4 min-h-[300px] text-white"
       onDragOver={onDragOver}
       onDrop={(e) => {
         const data = e.dataTransfer.getData("task");
