@@ -177,22 +177,7 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
             <div className="w-full max-w-2xl relative">
               {/* Icono con z-index más alto */}
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white z-10">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinejoin="round"
-                  strokeWidth="4"
-                >
-                  <path d="M21 38c9.389 0 17-7.611 17-17S30.389 4 21 4S4 11.611 4 21s7.611 17 17 17Z" />
-                  <path
-                    strokeLinecap="round"
-                    d="M26.657 14.343A7.98 7.98 0 0 0 21 12a7.98 7.98 0 0 0-5.657 2.343m17.879 18.879l8.485 8.485"
-                  />
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m8.492 11.265l-1.06 4.243l4.242-1.061l6.364-6.364L14.856 4.9zm13.259-6.894l1.06 1.06a1.5 1.5 0 0 1 0 2.122l-3.311 3.31m-1.462-2.78l3.713-3.712a1.5 1.5 0 0 0 0-2.121L20.69 1.189a1.5 1.5 0 0 0-2.121 0l-3.713 3.71"/><path d="M18.75 14.25v7.5a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-15a1.5 1.5 0 0 1 1.5-1.5h7.5"/></g></svg>
               </div>
               <input
               type="text"
