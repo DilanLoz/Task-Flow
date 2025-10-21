@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { DeleteIcon } from "./DeleteIcon";
-import { MoveIcon } from "./MoveIcon";
+import { DeleteIcon } from "./Icons/DeleteIcon";
+import { MoveIcon } from "./Icons/MoveIcon";
 
 interface Task {
   text: string;

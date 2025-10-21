@@ -1,26 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import CookieConsent from "./components/CookieConsent";
 
 function App() {
-  const [userIP, setUserIP] = useState('');
+  const [userIP, setUserIP] = useState("");
 
   const handleCookieAccept = (ip: string) => {
     setUserIP(ip);
-    console.log('IP del usuario:', ip);
+    localStorage.setItem("user-ip", ip);
+    console.log("IP del usuario:", ip);
   };
 
   useEffect(() => {
-    const savedIP = localStorage.getItem('user-ip');
+    const savedIP = localStorage.getItem("user-ip");
     if (savedIP) {
       setUserIP(savedIP);
     }
   }, []);
 
+  // 👇 Aquí va el nuevo return
   return (
-    // ELIMINA el fondo de aquí - déjalo transparente
     <div className="min-h-screen">
-      <Home userIP={userIP} />
+      {userIP ? (
+        // Solo renderiza Home cuando ya tienes la IP
+        <Home userIP={userIP} />
+      ) : (
+        // Mientras no haya IP, muestra algo simple
+        <div className="flex flex-col items-center justify-center min-h-screen text-white text-lg">
+          <p>Obteniendo dirección IP...</p>
+        </div>
+      )}
+
+      {/* CookieConsent siempre visible */}
       <CookieConsent onAccept={handleCookieAccept} />
     </div>
   );

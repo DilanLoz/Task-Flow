@@ -1,12 +1,12 @@
 import TaskCard from "./TaskCard";
 
 interface Task {
-  text: string;
+  text: string ;
   status: "todo" | "in-progress" | "done";
 }
 
 interface ColumnProps {
-  title: string;
+  title: string | React.ReactNode;
   tasks: Task[];
   onDrop: (task: Task) => void;
   onDragStart: (e: React.DragEvent, task: Task) => void;

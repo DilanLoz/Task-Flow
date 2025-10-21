@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CookieIcon } from "./Icons/CookieIcon";
 
 interface CookieConsentProps {
   onAccept: (ip: string) => void;
@@ -47,7 +48,7 @@ export default function CookieConsent({ onAccept }: CookieConsentProps) {
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm">🍪</span>
+                  <span className="text-white text-sm"><CookieIcon /></span>
                 </div>
               </div>
               <div className="flex-1">

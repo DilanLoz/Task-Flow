@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import Column from "../components/Column";
 import Silk from "../components/Silk";
 import Statistics from "../components/Statistics";
+import RocketIcon from "../components/Icons/RocketIcon";
+import PendienteIcon from "../components/Icons/PendienteIcon";
+import ProcesoIcon from "../components/Icons/ProcesoIcon";
+import TerminadaIcon from "../components/Icons/TerminadaIcon";
+import ExportIcon from "../components/Icons/ExportIcon";
+import TrashIcon from "../components/Icons/TrashIcon";
+
 
 interface Task {
   text: string;
@@ -14,9 +21,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ userIP }) => {
   const [tasks, setTasks] = useState<Task[]>(() => {
-    const saved = localStorage.getItem(
-      userIP ? `taskflow-data-${userIP}` : "taskflow-data"
-    );
+    const saved = localStorage.getItem("taskflow-data");
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -24,10 +29,11 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    localStorage.setItem("taskflow-data", JSON.stringify(tasks));
+
+    // Si hay IP, guarda una copia también específica para esa IP
     if (userIP) {
       localStorage.setItem(`taskflow-data-${userIP}`, JSON.stringify(tasks));
-    } else {
-      localStorage.setItem("taskflow-data", JSON.stringify(tasks));
     }
   }, [tasks, userIP]);
 
@@ -115,7 +121,8 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-center text-white mb-4 md:mb-0">
-              TaskFlow Kanban 🚀
+              <RocketIcon className="inline-block ml-2 text-blue-400" />
+              TaskFlow Kanban{" "}
             </h1>
 
             <div className="flex items-center space-x-2 md:space-x-4">
@@ -177,17 +184,33 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
             <div className="w-full max-w-2xl relative">
               {/* Icono con z-index más alto */}
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m8.492 11.265l-1.06 4.243l4.242-1.061l6.364-6.364L14.856 4.9zm13.259-6.894l1.06 1.06a1.5 1.5 0 0 1 0 2.122l-3.311 3.31m-1.462-2.78l3.713-3.712a1.5 1.5 0 0 0 0-2.121L20.69 1.189a1.5 1.5 0 0 0-2.121 0l-3.713 3.71"/><path d="M18.75 14.25v7.5a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-15a1.5 1.5 0 0 1 1.5-1.5h7.5"/></g></svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  >
+                    <path d="m8.492 11.265l-1.06 4.243l4.242-1.061l6.364-6.364L14.856 4.9zm13.259-6.894l1.06 1.06a1.5 1.5 0 0 1 0 2.122l-3.311 3.31m-1.462-2.78l3.713-3.712a1.5 1.5 0 0 0 0-2.121L20.69 1.189a1.5 1.5 0 0 0-2.121 0l-3.713 3.71" />
+                    <path d="M18.75 14.25v7.5a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-15a1.5 1.5 0 0 1 1.5-1.5h7.5" />
+                  </g>
+                </svg>
               </div>
               <input
-              type="text"
-              className="w-full flex-1 bg-white/15 backdrop-blur-md border border-white/70 text-white pl-10 p-3 rounded-l-lg placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Escribe una nueva tarea..."
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && addTask()}
-              autoFocus
-            />
+                type="text"
+                className="w-full flex-1 bg-white/15 backdrop-blur-md border border-white/70 text-white pl-10 p-3 rounded-l-lg placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Escribe una nueva tarea..."
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && addTask()}
+                autoFocus
+              />
             </div>
             <button
               onClick={addTask}
@@ -200,7 +223,12 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
           {/* Columnas Kanban */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
             <Column
-              title="Pendientes 📝"
+              title={
+                <>
+                  <PendienteIcon className="inline-block relative top-[-2px] mr-1  text-yellow-400" />
+                  Pendientes{" "}
+                </>
+              }
               tasks={filteredTasks.todo}
               onDrop={(task) => moveTask(task, "todo")}
               onDragStart={onDragStart}
@@ -208,7 +236,12 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
               onMove={moveToNextColumn}
             />
             <Column
-              title="En Progreso ⚡"
+              title={
+                <>
+                  <ProcesoIcon className="inline-block relative top-[-2px] mr-1  text-fuchsia-400" />
+                  Proceso{" "}
+                </>
+              }
               tasks={filteredTasks.inProgress}
               onDrop={(task) => moveTask(task, "in-progress")}
               onDragStart={onDragStart}
@@ -216,7 +249,12 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
               onMove={moveToNextColumn}
             />
             <Column
-              title="Completadas ✅"
+              title={
+                <>
+                  <TerminadaIcon className="inline-block relative top-[-2px] mr-1  text-green-400" />
+                  Completadas{" "}
+                </>
+              }
               tasks={filteredTasks.done}
               onDrop={(task) => moveTask(task, "done")}
               onDragStart={onDragStart}
