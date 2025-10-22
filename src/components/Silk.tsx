@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo, useRef, useLayoutEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Color, Mesh, ShaderMaterial } from 'three';
-import { IUniform } from 'three';
+
 
 // Elimina la importación de RootState y usa el tipo correcto
 type NormalizedRGB = [number, number, number];
@@ -14,6 +14,7 @@ const hexToNormalizedRGB = (hex: string): NormalizedRGB => {
   return [r, g, b];
 };
 
+
 interface UniformValue<T = number | Color> {
   value: T;
 }
@@ -25,7 +26,7 @@ interface SilkUniforms {
   uColor: UniformValue<Color>;
   uRotation: UniformValue<number>;
   uTime: UniformValue<number>;
-  [uniform: string]: IUniform;
+  [key: string]: UniformValue<number | Color>;
 }
 
 const vertexShader = `
