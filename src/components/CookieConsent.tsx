@@ -56,7 +56,7 @@ export default function CookieConsent({ onAccept }: CookieConsentProps) {
                 </h3>
                 <p className="text-gray-700 text-sm mb-4">
                   Usamos cookies para guardar tus tareas localmente y mejorar tu experiencia. 
-                  También capturamos tu IP de forma anónima para análisis estadísticos.
+                  No compartimos tu información con terceros.
                 </p>
                 <div className="flex space-x-3">
                   <button
