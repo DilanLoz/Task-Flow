@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CookieIcon } from "./Icons/CookieIcon";
+import { CookieIcon } from './Icons/CookieIcon';
 
 interface CookieConsentProps {
   onAccept: (ip: string) => void;
@@ -11,11 +11,9 @@ export default function CookieConsent({ onAccept }: CookieConsentProps) {
   const [userIP, setUserIP] = useState('');
 
   useEffect(() => {
-    // Verificar si ya aceptó cookies
     const hasAccepted = localStorage.getItem('cookies-accepted');
     if (!hasAccepted) {
       setIsVisible(true);
-      // Obtener IP del usuario
       fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => setUserIP(data.ip))
@@ -31,7 +29,8 @@ export default function CookieConsent({ onAccept }: CookieConsentProps) {
   };
 
   const handleDecline = () => {
-    // Opcional: manejar rechazo
+    localStorage.removeItem('cookies-accepted');
+    localStorage.removeItem('user-ip');
     setIsVisible(false);
   };
 

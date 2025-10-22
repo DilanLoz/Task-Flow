@@ -17,23 +17,32 @@ interface Task {
 
 interface HomeProps {
   userIP?: string;
+  cookiesAccepted?: boolean;
 }
 
 const Home: React.FC<HomeProps> = ({ userIP }) => {
   const [tasks, setTasks] = useState<Task[]>(() => {
-    const saved = localStorage.getItem("taskflow-data");
-    return saved ? JSON.parse(saved) : [];
+    const cookiesAccepted = localStorage.getItem("cookies-accepted");
+    if (cookiesAccepted === "true") {
+      const saved = localStorage.getItem("taskflow-data");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return []; // si no aceptó cookies, no carga tareas
   });
 
   const [newTask, setNewTask] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("taskflow-data", JSON.stringify(tasks));
+    const cookiesAccepted = localStorage.getItem("cookies-accepted");
+    if (cookiesAccepted === "true") {
+      localStorage.setItem("taskflow-data", JSON.stringify(tasks));
 
-    // Si hay IP, guarda una copia también específica para esa IP
-    if (userIP) {
-      localStorage.setItem(`taskflow-data-${userIP}`, JSON.stringify(tasks));
+      if (userIP) {
+        localStorage.setItem(`taskflow-data-${userIP}`, JSON.stringify(tasks));
+      }
+    } else {
+      console.warn("Las tareas no se guardan hasta aceptar cookies 🍪");
     }
   }, [tasks, userIP]);
 
@@ -57,6 +66,12 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
 
   const addTask = () => {
     if (!newTask.trim()) return;
+
+    const cookiesAccepted = localStorage.getItem("cookies-accepted");
+    if (cookiesAccepted !== "true") {
+      alert("Las tareas no se guardarán hasta aceptar las cookies 🍪");
+    }
+
     setTasks([...tasks, { text: newTask, status: "todo" }]);
     setNewTask("");
   };
