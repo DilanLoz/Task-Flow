@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import * as XLSX from "xlsx-js-style";
 import Column from "../components/Column";
 import Silk from "../components/Silk";
 import Statistics from "../components/Statistics";
@@ -8,7 +9,6 @@ import ProcesoIcon from "../components/Icons/ProcesoIcon";
 import TerminadaIcon from "../components/Icons/TerminadaIcon";
 import ExportIcon from "../components/Icons/ExportIcon";
 import TrashIcon from "../components/Icons/TrashIcon";
-
 
 interface Task {
   text: string;
@@ -85,15 +85,27 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
   };
 
   const exportData = () => {
-    const dataStr = JSON.stringify(tasks, null, 2);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `taskflow-backup-${
-      new Date().toISOString().split("T")[0]
-    }.json`;
-    link.click();
+    // Convierte las tareas a una hoja
+    const worksheet = XLSX.utils.json_to_sheet(tasks);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tareas");
+
+    // Estilos básicos (opcional)
+    Object.keys(worksheet).forEach((cell) => {
+      if (cell[0] === "!") return;
+      worksheet[cell].s = {
+        font: { name: "Arial", sz: 12, color: { rgb: "FFFFFF" } },
+        fill: { fgColor: { rgb: "1E3A8A" } },
+        alignment: { horizontal: "center", vertical: "center" },
+      };
+    });
+
+    // Exporta el archivo Excel
+    XLSX.writeFile(
+      workbook,
+      `RocketFlow-Backup-${new Date().toISOString().split("T")[0]}.xlsx`
+    );
   };
 
   const clearAllTasks = () => {
@@ -121,8 +133,8 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-center text-white mb-4 md:mb-0">
-              <RocketIcon className="inline-block ml-2 text-blue-400" />
-              TaskFlow Kanban{" "}
+              <RocketIcon className="inline-block mr-2 text-blue-400" />
+              RocketFlow{" "}
             </h1>
 
             <div className="flex items-center space-x-2 md:space-x-4">
@@ -131,7 +143,8 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
                 className="bg-green-500/20 backdrop-blur-md border border-green-400/30 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-green-500/30 transition-all text-sm md:text-base"
                 title="Exportar tareas"
               >
-                📤 Exportar
+                <ExportIcon className="inline-block ml-2 text-green-400" />{" "}
+                Exportar
               </button>
 
               <button
@@ -139,7 +152,7 @@ const Home: React.FC<HomeProps> = ({ userIP }) => {
                 className="bg-red-500/20 backdrop-blur-md border border-red-400/30 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-red-500/30 transition-all text-sm md:text-base"
                 title="Eliminar todas las tareas"
               >
-                🗑️ Limpiar
+                <TrashIcon className="inline-block ml-2 text-red-400" /> Limpiar
               </button>
             </div>
           </div>

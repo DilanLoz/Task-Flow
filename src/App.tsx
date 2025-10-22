@@ -18,21 +18,32 @@ function App() {
     }
   }, []);
 
-  // 👇 Aquí va el nuevo return
   return (
-    <div className="min-h-screen">
-      {userIP ? (
-        // Solo renderiza Home cuando ya tienes la IP
-        <Home userIP={userIP} />
-      ) : (
-        // Mientras no haya IP, muestra algo simple
-        <div className="flex flex-col items-center justify-center min-h-screen text-white text-lg">
-          <p>Obteniendo dirección IP...</p>
-        </div>
-      )}
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-grow">
+        {userIP ? (
+          <Home userIP={userIP} />
+        ) : (
+          <div className="flex flex-col items-center justify-center min-h-screen text-white text-lg">
+            <p>Obteniendo dirección IP...</p>
+          </div>
+        )}
+      </div>
 
-      {/* CookieConsent siempre visible */}
       <CookieConsent onAccept={handleCookieAccept} />
+
+      {/* ✅ Footer con año automático */}
+      <footer className="flex flex-col sm:flex-row items-center justify-center gap-2 py-4 text-sm text-gray-400 ">
+        <img
+          src="/favicon.png"
+          alt="RocketFlow logo"
+          className="w-6 h-6 object-contain"
+        />
+        <span>
+          © {new Date().getFullYear()} RocketFlow — Desarrollado por{" "}
+          <a href="https://github.com/DilanLoz" target="_blank">Dilan Lopez</a>
+        </span>
+      </footer>
     </div>
   );
 }
